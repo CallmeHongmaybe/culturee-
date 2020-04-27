@@ -1,9 +1,17 @@
 import {getCountryData, allCountryPaths} from '../../lib/countries'; 
-import Title from '../../components/Title'; 
+import getPhotoUrls from '../../lib/photo_snippets';
+import Intro from '../../components/Intro'; 
+import Header from '../../components/Header'; 
+import Link from 'next/link'; 
 
-export default function Post( {name, emoji} ) {
+export default function Post( {name, emoji, images} ) {
     return (
-        <Title country={name} emoji={emoji}/>
+        <div>
+            <Header/>
+            <h1>{name} {emoji}</h1>
+            <Intro images={images}/>
+            <Link href="/"><a>← Back to home</a></Link>
+        </div>
     )
 }
 
@@ -15,12 +23,14 @@ export function getStaticPaths() {
     }
   }
 
-export function getStaticProps({ params }) {
+export async function getStaticProps({ params }) {
     const country = getCountryData(params.country); 
+    const imageUrls = await getPhotoUrls(params.country); 
     return {
         props: {
             name: country.name,
-            emoji: country.emoji
+            emoji: country.emoji, 
+            images: imageUrls,
         }
     }
 }

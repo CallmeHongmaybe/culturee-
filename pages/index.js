@@ -1,9 +1,14 @@
 import Title from '../components/Title'; 
+import Header from '../components/Header'; 
 import {getRandomCountry} from '../lib/countries'; 
 
 export default function Index({randomCountry}) {  
   return (
-      <Title country={randomCountry.name} emoji={randomCountry.emoji}/>
+      <div>
+          <Header/>
+          <Title country={randomCountry.name} emoji={randomCountry.emoji}/>
+          
+      </div>
   );
 }
 

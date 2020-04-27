@@ -90,12 +90,6 @@
     "emoji": "🇦🇼"
     },
     {
-    "code": "AX",
-    "unicode": "U+1F1E6 U+1F1FD",
-    "name": "Åland Islands",
-    "emoji": "🇦🇽"
-    },
-    {
     "code": "AZ",
     "unicode": "U+1F1E6 U+1F1FF",
     "name": "Azerbaijan",
@@ -156,12 +150,6 @@
     "emoji": "🇧🇯"
     },
     {
-    "code": "BL",
-    "unicode": "U+1F1E7 U+1F1F1",
-    "name": "St. Barthélemy",
-    "emoji": "🇧🇱"
-    },
-    {
     "code": "BM",
     "unicode": "U+1F1E7 U+1F1F2",
     "name": "Bermuda",
@@ -180,12 +168,6 @@
     "emoji": "🇧🇴"
     },
     {
-    "code": "BQ",
-    "unicode": "U+1F1E7 U+1F1F6",
-    "name": "Caribbean Netherlands",
-    "emoji": "🇧🇶"
-    },
-    {
     "code": "BR",
     "unicode": "U+1F1E7 U+1F1F7",
     "name": "Brazil",
@@ -202,12 +184,6 @@
     "unicode": "U+1F1E7 U+1F1F9",
     "name": "Bhutan",
     "emoji": "🇧🇹"
-    },
-    {
-    "code": "BV",
-    "unicode": "U+1F1E7 U+1F1FB",
-    "name": "Bouvet Island",
-    "emoji": "🇧🇻"
     },
     {
     "code": "BW",
@@ -232,12 +208,6 @@
     "unicode": "U+1F1E8 U+1F1E6",
     "name": "Canada",
     "emoji": "🇨🇦"
-    },
-    {
-    "code": "CC",
-    "unicode": "U+1F1E8 U+1F1E8",
-    "name": "Cocos (Keeling) Islands",
-    "emoji": "🇨🇨"
     },
     {
     "code": "CD",
@@ -300,12 +270,6 @@
     "emoji": "🇨🇴"
     },
     {
-    "code": "CP",
-    "unicode": "U+1F1E8 U+1F1F5",
-    "name": "Clipperton Island",
-    "emoji": "🇨🇵"
-    },
-    {
     "code": "CR",
     "unicode": "U+1F1E8 U+1F1F7",
     "name": "Costa Rica",
@@ -330,12 +294,6 @@
     "emoji": "🇨🇼"
     },
     {
-    "code": "CX",
-    "unicode": "U+1F1E8 U+1F1FD",
-    "name": "Christmas Island",
-    "emoji": "🇨🇽"
-    },
-    {
     "code": "CY",
     "unicode": "U+1F1E8 U+1F1FE",
     "name": "Cyprus",
@@ -352,12 +310,6 @@
     "unicode": "U+1F1E9 U+1F1EA",
     "name": "Germany",
     "emoji": "🇩🇪"
-    },
-    {
-    "code": "DG",
-    "unicode": "U+1F1E9 U+1F1EC",
-    "name": "Diego Garcia",
-    "emoji": "🇩🇬"
     },
     {
     "code": "DJ",
@@ -388,12 +340,6 @@
     "unicode": "U+1F1E9 U+1F1FF",
     "name": "Algeria",
     "emoji": "🇩🇿"
-    },
-    {
-    "code": "EA",
-    "unicode": "U+1F1EA U+1F1E6",
-    "name": "Ceuta & Melilla",
-    "emoji": "🇪🇦"
     },
     {
     "code": "EC",
@@ -436,12 +382,6 @@
     "unicode": "U+1F1EA U+1F1F9",
     "name": "Ethiopia",
     "emoji": "🇪🇹"
-    },
-    {
-    "code": "EU",
-    "unicode": "U+1F1EA U+1F1FA",
-    "name": "European Union",
-    "emoji": "🇪🇺"
     },
     {
     "code": "FI",
@@ -564,12 +504,6 @@
     "emoji": "🇬🇷"
     },
     {
-    "code": "GS",
-    "unicode": "U+1F1EC U+1F1F8",
-    "name": "South Georgia & South Sandwich Islands",
-    "emoji": "🇬🇸"
-    },
-    {
     "code": "GT",
     "unicode": "U+1F1EC U+1F1F9",
     "name": "Guatemala",
@@ -596,14 +530,8 @@
     {
     "code": "HK",
     "unicode": "U+1F1ED U+1F1F0",
-    "name": "Hong Kong SAR China",
+    "name": "Hong Kong",
     "emoji": "🇭🇰"
-    },
-    {
-    "code": "HM",
-    "unicode": "U+1F1ED U+1F1F2",
-    "name": "Heard & McDonald Islands",
-    "emoji": "🇭🇲"
     },
     {
     "code": "HN",
@@ -920,7 +848,7 @@
     {
     "code": "MO",
     "unicode": "U+1F1F2 U+1F1F4",
-    "name": "Macau SAR China",
+    "name": "Macau",
     "emoji": "🇲🇴"
     },
     {
@@ -1522,12 +1450,6 @@
     "unicode": "U+1F1FE U+1F1EA",
     "name": "Yemen",
     "emoji": "🇾🇪"
-    },
-    {
-    "code": "YT",
-    "unicode": "U+1F1FE U+1F1F9",
-    "name": "Mayotte",
-    "emoji": "🇾🇹"
     },
     {
     "code": "ZA",
