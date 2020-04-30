@@ -41,6 +41,8 @@ export default function getTrends(trends, country) {
 function Item({imageurl, name, downloads, likes}) {
 
     const [hover, setHover] = useState(false); 
+    const [value, setValue] = useState(downloads); 
+    const [like, setLike] = useState(likes);
 
     function handleHover(hover) {
         return hover ? setHover(true) : setHover(false); 
@@ -53,13 +55,13 @@ function Item({imageurl, name, downloads, likes}) {
             <img src={imageurl} style={constraints} className="self-center"></img>
             <div className="p-5"> 
                 <p className="text-red-600 text-lg">{name}</p>
-                <p>Downloads <p className="text-green-500">{downloads}</p></p>
-                <p>Likes <p className="text-green-500">{likes}</p></p>
+                <p className="text-blue-500">Downloads <p className="text-green-500">{value}</p></p>
+                <p className="text-blue-500">Likes <p className="text-green-500">{like}</p></p>
                 {hover &&
                 
                 <div>
-                <Popup className={buttonStyle}>Do you play this game ?</Popup>    
-                <Popup className={buttonStyle + " ml-2"}>👍</Popup>     
+                <Popup className={buttonStyle} onClick={() => {setValue(value + 1)}}>Do you play this game ?</Popup>    
+                <Popup className={buttonStyle + " ml-2"} onClick={() => {setLike(like + 1)}} >👍</Popup>     
                 </div>}
             </div>
      

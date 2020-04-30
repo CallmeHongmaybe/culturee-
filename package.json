@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "npm run clean && next start", 
+    "clean": "rimraf -rf .next"
   },
   "license": "ISC",
   "dependencies": {
