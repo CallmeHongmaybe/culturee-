@@ -26,8 +26,8 @@ const Wrapper = styled.div`
 
 const Suggestions = ({suggestions}) => {
 const options = suggestions.map(suggestion => 
-    <Link href="/country/[country]" as={`/country/${suggestion.country}`}>
-        <Item key={suggestion.unicode}>{suggestion.emoji} {suggestion.country}</Item>
+    <Link href="/country/[country]" as={`/country/${suggestion.name}`}>
+        <Item key={suggestion.unicode}>{suggestion.emoji} {suggestion.name}</Item>
     </Link>
 )
 
