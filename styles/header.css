@@ -1,0 +1,28 @@
+.App-header {
+    position: fixed;
+    background-color: #eaeef7;
+    display: flex;
+    justify-content: space-around;
+    align-items: center; 
+    width: 100%;
+  }
+
+  .country-panel-header {
+    position: relative;
+    width: 50%; 
+    margin-left: 15%; 
+  }
+
+  .Navbar { 
+      position: relative;
+      width: 30%;
+      display: flex;
+      list-style-type: none;
+      flex-flow: row;
+      justify-content: space-evenly;
+  }
+
+  .Navbar li {
+      font-size: calc(5px + 2vmin); 
+      margin-right: 5px;
+  }

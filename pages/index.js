@@ -7,7 +7,6 @@ export default function Index({randomCountry}) {
       <div>
           <Header/>
           <Title country={randomCountry.name} emoji={randomCountry.emoji}/>
-          
       </div>
   );
 }

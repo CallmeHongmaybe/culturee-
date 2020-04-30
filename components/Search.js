@@ -26,8 +26,8 @@ const Wrapper = styled.div`
 
 const Suggestions = ({suggestions}) => {
 const options = suggestions.map(suggestion => 
-    <Link href="/country/[country]" as={`/country/${suggestion.name}`}>
-        <Item key={suggestion.unicode}>{suggestion.emoji} {suggestion.name}</Item>
+    <Link href="/country/[country]" as={`/country/${suggestion.country}`}>
+        <Item key={suggestion.unicode}>{suggestion.emoji} {suggestion.country}</Item>
     </Link>
 )
 
@@ -70,16 +70,19 @@ export default class Search extends Component {
         return (
            <Wrapper>
             <div className="searcher">
-              <input ref={input => this.search = input} className="input" placeholder="   Type country name here" onChange={this.setKeyword}/>
+              <input 
+              ref={input => this.search = input} 
+              type="search" 
+              className="input mx-auto w-full h-10 rounded focus:outline-none focus:shadow-outline text-xl shadow-lg px-3 py-4" 
+              placeholder="Type country name here" 
+              onChange={this.setKeyword}
+              />
               <style jsx>{` 
                 input {
                     font-size: 15px; 
-                    padding-top: 10px;
-                    padding-left: 10px;
                     padding: 0.5rem 0;
                     margin: 0.5rem 1rem;
                     width: 25rem;
-                    border: 2px solid black;
                     position: relative; 
                 }
              `}</style>

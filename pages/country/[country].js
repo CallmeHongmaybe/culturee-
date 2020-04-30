@@ -3,17 +3,30 @@ import getPhotoUrls from '../../lib/photo_snippets';
 import Intro from '../../components/Intro'; 
 import Header from '../../components/Header'; 
 import Link from 'next/link'; 
+import getTrends from '../trends'; 
 
-export default function Post( {name, emoji, images} ) {
+/* trends: {
+    game: {
+        name: string;
+        downloads: number;
+        likes: number;
+    }[];
+} */
+
+
+export default function Post( {name, emoji, images, trending} ) {    
     return (
         <div>
             <Header/>
-            <h1>{name} {emoji}</h1>
+            <h1 className="text-bold text-3xl text-red-600 px-6 py-4">{name} {emoji}</h1>
             <Intro images={images}/>
-            <Link href="/"><a>← Back to home</a></Link>
+            {getTrends(trending, name)}
+            <Link href="/"><a className="text-purple-800 text-xl p-5">← Back to home</a></Link>
         </div>
     )
 }
+
+
 
 export function getStaticPaths() {
     const paths = allCountryPaths(); 
@@ -31,6 +44,7 @@ export async function getStaticProps({ params }) {
             name: country.name,
             emoji: country.emoji, 
             images: imageUrls,
+            trending: country.trends
         }
     }
 }
