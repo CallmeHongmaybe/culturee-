@@ -3,7 +3,7 @@ import {getPhotoUrls} from '../../lib/photo_snippets';
 import Intro from '../../components/Intro'; 
 import Header from '../../components/Header'; 
 import Link from 'next/link'; 
-import getTrends from '../trends'; 
+import getTrends from '../../components/trends'; 
 
 /* trends: {
     game: {
@@ -42,12 +42,12 @@ export function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
     const country = getCountryData(params.country); 
-    const imageUrls = await getPhotoUrls(params.country); 
+    const imageUrls = await getPhotoUrls(encodeURIComponent(params.country)); 
     return {
         props: {
             name: country.name,
             emoji: country.emoji, 
-            images: imageUrls,
+            images: imageUrls || null,
             trending: country.trends
         }
     }

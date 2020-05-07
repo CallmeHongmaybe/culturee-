@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "npm run clean && next",
-    "build": "next build",
+    "build": "npm run clean && next build",
     "start": "next start",
     "clean": "rimraf -rf .next"
   },

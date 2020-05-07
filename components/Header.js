@@ -20,19 +20,6 @@ export default function Header() {
                     <Link href="/login"><a>Login</a></Link>
                   </div>
               </div>
-
-    <style jsx>{`
-        .country-panel-header {
-          position: relative;
-          width: 50%; 
-          margin-left: 15%; 
-        }
-
-        .Navbar li {
-            font-size: calc(5px + 2vmin); 
-            margin-right: 5px;
-        }
-    `}</style>
           </div>
     )
 }
