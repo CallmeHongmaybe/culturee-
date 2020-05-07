@@ -1,6 +1,6 @@
 export default function Intro( {images} ) {
     return (
-      <div className="font-sans flex flex-row sm:flex-col p-0 m-5">
+      <div className="flex flex-row sm:flex-col p-0 m-5">
       { 
        images.map(image => (
         <div key={image.id} className="p-3 shadow-xl">
