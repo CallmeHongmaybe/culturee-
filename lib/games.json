@@ -2,16 +2,22 @@
     {
         "name": "Fortnite", 
         "downloads": 21, 
-        "likes": 18 
+        "likes": 18 , 
+        "global_downloads": 116823, 
+        "global_likes": 68166 
     },
     {
         "name": "League of legends", 
         "downloads": 11, 
-        "likes": 12 
+        "likes": 12, 
+        "global_downloads": 57277, 
+        "global_likes": 44232 
     },
     {
         "name": "Minecraft", 
         "downloads": 45, 
-        "likes": 22 
+        "likes": 22, 
+        "global_downloads": 262845,
+        "global_likes": 81532  
     }
 ]

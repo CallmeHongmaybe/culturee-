@@ -13,43 +13,19 @@ const Item = styled.li`
     font-family: 'Arial', sans-serif;
     color: black;
     width: 100%;
-    border-bottom: 0.5px solid gray; 
-`
-
-const Wrapper = styled.div`
-    position: relative;
-    height: fit-content; 
-    display: flex; 
-    flex-direction: column; 
-    width: 25rem; 
+    padding-left: 5px;
+    background-color: white; 
+    border-bottom: 1px solid gray;
 `
 
 const Suggestions = ({suggestions}) => {
 const options = suggestions.map(suggestion => 
-    <Link href="/country/[country]" as={`/country/${suggestion.name}`}>
-        <Item key={suggestion.unicode}>{suggestion.emoji} {suggestion.name}</Item>
+    <Link href="/country/[country]" as={`/country/${suggestion.country}`}>
+        <Item key={suggestion.unicode}>{suggestion.emoji} {suggestion.country}</Item>
     </Link>
 )
 
-    return (
-        <ul>{options}
-          <style jsx>{`
-        ul {
-            position: absolute;
-            top: 30px; 
-            height: max-content;
-            list-style-type: none;
-            width: 25rem;
-            background: white;
-            border-left: 2px solid black; 
-            border-right: 2px solid black; 
-            padding-left: 5px;
-            margin-left: 15px; 
-        }
-    `}</style>
-        </ul>
-  
-    )
+    return options
 }
 
 export default class Search extends Component {
@@ -68,27 +44,16 @@ export default class Search extends Component {
 
     render() {
         return (
-           <Wrapper>
-            <div className="searcher">
-              <input 
-              ref={input => this.search = input} 
-              type="search" 
-              className="input mx-auto w-full h-10 rounded focus:outline-none focus:shadow-outline text-xl shadow-lg px-3 py-4" 
-              placeholder="Type country name here" 
-              onChange={this.setKeyword}
-              />
-              <style jsx>{` 
-                input {
-                    font-size: 15px; 
-                    padding: 0.5rem 0;
-                    margin: 0.5rem 1rem;
-                    width: 25rem;
-                    position: relative; 
-                }
-             `}</style>
-            </div>
-            {this.search.value && <Suggestions suggestions={this.state.suggestions}/> }
-            </Wrapper>
+           <div className="relative w-1/3 sm:w-4/5">
+                <input 
+                ref={input => this.search = input} 
+                type="search" 
+                className="mx-auto w-full h-10 rounded focus:outline-none focus:shadow-outline text-xl text-black-500 shadow-lg p-4 m-2" 
+                placeholder="Search for country..." 
+                onChange={this.setKeyword}
+                />
+               <ul className="absolute w-full border-solid border-black-200 bg-white-500 z-10">{this.search.value && <Suggestions suggestions={this.state.suggestions}/> }</ul>
+           </div>
         )
     }   
 }

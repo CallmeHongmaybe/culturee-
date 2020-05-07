@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Fortnite", 
+        "image_url": "https://i.insider.com/5c366de02a5b7442d75cda92?width=1100&format=jpeg&auto=webp"
+    },
+    {
+        "name": "Minecraft", 
+        "image_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/51/Minecraft_cover.png/220px-Minecraft_cover.png"
+    },
+    {
+        "name": "League of legends", 
+        "image_url": "https://cdn.dribbble.com/users/450210/screenshots/1902257/album01.jpg"
+    }, 
+    {
+        "name": "Tropic Thunder", 
+        "image_url": "https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Tropic_thunder_ver3.jpg/220px-Tropic_thunder_ver3.jpg"
+    },
+    {
+        "name": "Avengers End Game", 
+        "image_url": "https://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg"
+    },
+    {
+        "name": "Frozen 2", 
+        "image_url": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4f/Frozen_2_poster.jpg/220px-Frozen_2_poster.jpg"
+    }
+]

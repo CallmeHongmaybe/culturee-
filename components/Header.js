@@ -3,48 +3,29 @@ import Search from '../components/Search';
 
 export default function Header() {
     return (
-          <div className="App-header">
+          <div className="relative flex sm:flex-col justify-around items-center bg-blue-500 text-black-200">
               <span className = "title"> Cultural lens logo goes here </span>
               <Search/>
-              <ul className="Navbar">
-                  <li>
-                    <Link href="/">Home</Link>
-                  </li>
-                  <li>
-                    <Link href="/forum">Forum</Link>
-                  </li>
-                  <li>
-                    <Link href="/about">About</Link>
-                  </li>
-                  <li>
-                    <Link href="/login">Login</Link>
-                  </li>
-              </ul>
+              <div className="relative w-1/3 sm:w-4/5 flex flex-row justify-around" style={{color: "white"}}>
+                  <div>
+                    <Link href="/"><a>Home</a></Link>
+                  </div>
+                  <div>
+                    <Link href="/forum"><a>Forum</a></Link>
+                  </div>
+                  <div>
+                    <Link href="/about"><a>About</a></Link>
+                  </div>
+                  <div>
+                    <Link href="/login"><a>Login</a></Link>
+                  </div>
+              </div>
 
     <style jsx>{`
-        .App-header {
-          position: relative;
-          background-color: #eaeef7;
-          display: flex;
-          justify-content: space-around;
-          color: blue;
-          align-items: center; 
-
-        }
-
         .country-panel-header {
           position: relative;
           width: 50%; 
           margin-left: 15%; 
-        }
-
-        .Navbar { 
-            position: relative;
-            width: 30%;
-            display: flex;
-            list-style-type: none;
-            flex-flow: row;
-            justify-content: space-evenly;
         }
 
         .Navbar li {

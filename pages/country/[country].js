@@ -1,5 +1,5 @@
 import {getCountryData, allCountryPaths} from '../../lib/countries'; 
-import getPhotoUrls from '../../lib/photo_snippets';
+import {getPhotoUrls} from '../../lib/photo_snippets';
 import Intro from '../../components/Intro'; 
 import Header from '../../components/Header'; 
 import Link from 'next/link'; 
@@ -16,12 +16,16 @@ import getTrends from '../trends';
 
 export default function Post( {name, emoji, images, trending} ) {    
     return (
-        <div>
+        <div className="sm:w-full">
             <Header/>
             <h1 className="text-bold text-3xl text-red-600 px-6 py-4">{name} {emoji}</h1>
+            <h2 className="text-bold text-2xl text-red-600 px-6"> Gallery </h2>
             <Intro images={images}/>
             {getTrends(trending, name)}
-            <Link href="/"><a className="text-purple-800 text-xl p-5">← Back to home</a></Link>
+            <br/>
+            <br/>
+            <div className="border-solid border-2 border-l-8 border-blue-600 p-5 m-5">⚠️ Disclaimer: As the viability of this project is still debatable, I invented all of the data above and those shall not be trusted. </div>
+            <Link href="/"><a className="text-purple-800 text-xl p-5 text-center">← Back to home</a></Link>
         </div>
     )
 }

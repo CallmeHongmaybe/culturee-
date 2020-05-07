@@ -4,9 +4,7 @@ export default function Title({country, emoji}) {
     return (
         <main className="center">
         <div className="country">
-        <Link href="/country/[country]" as={`/country/${country}`}>
-            <div>{country}</div>
-        </Link>
+        
         </div>
         <span className="emoji">{emoji}</span>
 
