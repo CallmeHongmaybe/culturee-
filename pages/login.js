@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Login() {
     return (
-        <div className="transform translate-y-1/2">
+        <div className="font-sans transform translate-y-1/2">
             <h1 className="text-5xl text-black-500 text-center">Authentication coming soon</h1>
                 <form className="flex flex-col">
                     <div className="self-center py-2">

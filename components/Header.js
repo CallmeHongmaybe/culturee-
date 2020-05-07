@@ -3,7 +3,7 @@ import Search from '../components/Search';
 
 export default function Header() {
     return (
-          <div className="relative flex sm:flex-col justify-around items-center bg-blue-500 text-black-200">
+          <div className="font-sans relative flex sm:flex-col justify-around items-center bg-blue-500 text-black-200">
               <span className = "title"> Cultural lens logo goes here </span>
               <Search/>
               <div className="relative w-1/3 sm:w-4/5 flex flex-row justify-around" style={{color: "white"}}>

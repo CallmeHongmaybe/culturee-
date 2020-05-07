@@ -45,8 +45,8 @@ export default function FeatureSlider({randomGroups, featuredPics}) {
 
     return (
         <>        
-         <ul className="flex flex-row overflow-scroll list-none relative">   
-         <LeftButton className="absolute" onClick={goLeft}>{"<"}</LeftButton> 
+         <ul className="font-sans flex flex-row overflow-scroll list-none relative">   
+         <LeftButton className="font-sans absolute" onClick={goLeft}>{"<"}</LeftButton> 
               {
                     randomGroups.map((element, index) => (
                             <Link href="/country/[country]" as={`/country/${element.name}`} key={element.name + Math.sqrt(Math.random().toFixed(5)).toString()}>
@@ -62,7 +62,7 @@ export default function FeatureSlider({randomGroups, featuredPics}) {
                     ) 
                   )
               }
-        <RightButton className="absolute" onClick={goRight}>{">"}</RightButton>   
+        <RightButton className="font-sans absolute" onClick={goRight}>{">"}</RightButton>   
         </ul>
        </>
     )

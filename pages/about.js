@@ -4,8 +4,8 @@ export default function About() {
     return (
         <div>
             <Header/>
-            <div className="text-3xl text-center p-3"> Thanks for visiting the site 😍😊 </div>
-            <div className="text-xl text-grey-600 text-center ml-10 mr-10"> 
+            <div className="font-sans text-3xl text-center p-3"> Thanks for visiting the site 😍😊 </div>
+            <div className="font-sans text-xl text-grey-600 text-center ml-10 mr-10"> 
              Ever wonder what's currently hot and trending in other countries ? What if you and people in that country share common interest  ? 
              <br/>
              I myself have wondered the same thing as you are doing. I would start from reading travellers' blogs to watching YT travel vids. It feels like doing doctoral research work for answering such trivial questions. 

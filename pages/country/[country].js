@@ -16,7 +16,7 @@ import getTrends from '../../components/trends';
 
 export default function Post( {name, emoji, images, trending} ) {    
     return (
-        <div className="sm:w-full">
+        <div className="font-sans sm:w-full">
             <Header/>
             <h1 className="text-bold text-3xl text-red-600 px-6 py-4">{name} {emoji}</h1>
             <h2 className="text-bold text-2xl text-red-600 px-6"> Gallery </h2>
