@@ -42,7 +42,7 @@ export function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
     const country = getCountryData(params.country); 
-    const imageUrls = await getPhotoUrls(encodeURIComponent(params.country)); 
+    const imageUrls = await getPhotoUrls(params.country); 
     return {
         props: {
             name: country.name,
