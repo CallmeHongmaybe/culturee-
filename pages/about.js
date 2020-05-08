@@ -12,7 +12,7 @@ export default function About() {
              <br/>
              There is no denying that these travellers/bloggers put hard work into pumping out these content. Having them contributing good stuff to the world is a blessing.
              <br/>
-             But how they perceive culture in a country is mostly limited to personal experiences, which means that no two experiences are exactly the same. But they can't straight up interview thousands of people about the same question. It would be next to impossible 
+             But how they perceive culture in a country is mostly limited to personal experiences, and it also goes without saying that no two experiences are exactly the same. But they can't straight up interview thousands of people about the same question. It would be next to impossible.
              <br/>
              However this website aims to solve this problem by reporting you real time figures of what is currently trending in a particular country  
              </div>
