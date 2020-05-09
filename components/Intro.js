@@ -4,8 +4,8 @@ export default function Intro( {images} ) {
       { 
        images.map(image => (
         <div key={image.id} className="p-3 shadow-xl">
-          <img src={image.webformatURL} style={{width: 300,height: 200}}></img>
-          <div className="p-2 text-green-500 text-right ">Taken by {image.user} from <a href={image.pageURL}>Pixabay</a></div>
+          <img src={image.urls.small} style={{width: 300,height: 200}}></img>
+          <div className="p-2 text-green-500 text-right ">Taken by {image.user.name} from <a href={image.links.html} target="_blank">Unsplash</a></div>
         </div>
        ))
       }

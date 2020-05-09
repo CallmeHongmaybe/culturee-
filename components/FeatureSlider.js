@@ -49,15 +49,15 @@ export default function FeatureSlider({randomGroups, featuredPics}) {
          <LeftButton className="absolute" onClick={goLeft}>{"<"}</LeftButton> 
               {
                     randomGroups.map((element, index) => (
-                            <Link href="/country/[country]" as={`/country/${element.name}`} key={element.name + Math.sqrt(Math.random().toFixed(5)).toString()}>
-                            <Featured shift={x} className="relative flex">
-                                <img src={featuredPics[index]} className="absolute z-0" style={{width: '100%'}}/>
-                                <div className="self-center text-center z-10 p-5 bg-black bg-opacity-50">
-                                    <div className="text-lg">Today's featured country</div>
-                                    <div className="text-2xl">{element.name}</div>
-                                    <div className="text-5xl">{element.emoji}</div>
-                                </div>
-                            </Featured>
+                            <Link href="/country/[country]" as={`/country/${encodeURIComponent(element.name)}`} key={element.name + Math.sqrt(Math.random().toFixed(5)).toString()}>
+                                <Featured shift={x} className="relative flex">
+                                    <img src={featuredPics[index]} className="absolute z-0" style={{width: '100%'}}/>
+                                    <div className="self-center text-center z-10 p-5 bg-black bg-opacity-50">
+                                        <div className="text-lg">Today's featured country</div>
+                                        <div className="text-2xl">{element.name}</div>
+                                        <div className="text-5xl">{element.emoji}</div>
+                                    </div>
+                                </Featured>
                             </Link>
                     ) 
                   )
