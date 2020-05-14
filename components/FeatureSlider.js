@@ -36,7 +36,6 @@ export default function FeatureSlider({randomGroups, featuredPics}) {
     
     const goLeft = () => {
         x <= -300 ? setX(0) : setX(x - 100)
-     
     }
 
     const goRight = () => {
@@ -45,7 +44,7 @@ export default function FeatureSlider({randomGroups, featuredPics}) {
 
     return (
         <>        
-         <ul className="flex flex-row overflow-scroll list-none relative">   
+         <ul className="flex flex-row overflow-hidden list-none relative">   
          <LeftButton className="absolute" onClick={goLeft}>{"<"}</LeftButton> 
               {
                     randomGroups.map((element, index) => (

@@ -6,7 +6,6 @@ import games from '../lib/games.json';
 import movies from '../lib/movies.json'; 
 
 export default function Index({randomGroups, featuredPics}) {  
-
     var filteredGroup = randomGroups.filter((country, index, self) => {
         return index === self.findIndex((instance) => (
             instance.name === country.name || instance.emoji === country.emoji
@@ -63,24 +62,16 @@ export default function Index({randomGroups, featuredPics}) {
                 </table>
           </div>
           </div>
-          {/* <ul>
-              {
-                  movies.map(movie => (
-                      <li>{movie.name + " " + movie.global_watched + " " + movie.global_likes}</li>
-                  ))
-              }
-          </ul> */}
       </div>
   );
 }
 
 export async function getStaticProps() {
     const randomCountries = getRandomCountries(); 
-
     return {
         props: {
             randomGroups: randomCountries, 
-            featuredPics: await getFeaturedPhotos(randomCountries)
+            featuredPics: await getFeaturedPhotos(randomCountries), 
         }
     }
 }
