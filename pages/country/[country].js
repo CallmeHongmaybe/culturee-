@@ -5,6 +5,7 @@ import Header from '../../components/Header';
 import Link from 'next/link'; 
 import getTrends from '../../components/trends'; 
 import { useEffect, useRef } from 'react';
+import ls from 'local-storage';
 
 
 function usePrevCountry(name) {
@@ -60,15 +61,10 @@ Post.getInitialProps = async ctx => {
     }
 }
 
-function getLocalUrls(country_name) {
-    var data = JSON.parse(localStorage.getItem("search_history")) || [];
-    var chosenData = data.find(value => value.country === country_name); 
-
-    if (chosenData) {
-         return chosenData.images; 
-    }
-    else {
-        console.log("nay")
-        return null; 
-    }   
+function getLocalUrls(country_name) { 
+        var data = ls.get("search_history") || [];
+        var chosenData = data.find(value => value.country === country_name); 
+    
+        if (chosenData) return chosenData.images; 
+        else return null; 
 }
