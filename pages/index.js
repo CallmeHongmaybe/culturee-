@@ -6,12 +6,13 @@ import games from '../lib/games.json';
 import movies from '../lib/movies.json'; 
 
 export default function Index({randomGroups, featuredPics}) {  
+
     var filteredGroup = randomGroups.filter((country, index, self) => {
         return index === self.findIndex((instance) => (
             instance.name === country.name || instance.emoji === country.emoji
         )); 
       }
-    )
+    ); 
 
   return (
       <div>
