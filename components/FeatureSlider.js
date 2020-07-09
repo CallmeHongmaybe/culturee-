@@ -1,6 +1,6 @@
-import styled from 'styled-components'; 
-import {useState} from 'react'; 
-import Link from 'next/link'; 
+import styled from 'styled-components';
+import { useState } from 'react';
+import Link from 'next/link';
 
 const Featured = styled.li`
     min-width: 100%;
@@ -30,10 +30,10 @@ const RightButton = styled(LeftButton)`
     right: 0; 
 `
 
-export default function FeatureSlider({randomGroups, featuredPics}) {  
-    
-    const [x, setX] = useState(-300); 
-    
+export default function FeatureSlider({ randomGroups, featuredPics }) {
+
+    const [x, setX] = useState(-300);
+
     const goLeft = () => {
         x <= -300 ? setX(0) : setX(x - 100)
     }
@@ -43,26 +43,26 @@ export default function FeatureSlider({randomGroups, featuredPics}) {
     }
 
     return (
-        <>        
-         <ul className="flex flex-row overflow-hidden list-none relative">   
-         <LeftButton className="absolute" onClick={goLeft}>{"<"}</LeftButton> 
-              {
+        <>
+            <ul className="flex flex-row overflow-hidden list-none relative">
+                <LeftButton className="absolute" onClick={goLeft}>{"<"}</LeftButton>
+                {
                     randomGroups.map((element, index) => (
-                            <Link href="/country/[country]" as={`/country/${encodeURIComponent(element.name)}`} key={element.name + Math.sqrt(Math.random().toFixed(5)).toString()}>
-                                <Featured shift={x} className="relative flex">
-                                    <img src={featuredPics[index]} className="absolute z-0" style={{width: '100%'}}/>
-                                    <div className="self-center text-center z-10 p-5 bg-black bg-opacity-50">
-                                        <div className="text-lg">Today's featured country</div>
-                                        <div className="text-2xl">{element.name}</div>
-                                        <div className="text-5xl">{element.emoji}</div>
-                                    </div>
-                                </Featured>
-                            </Link>
-                    ) 
-                  )
-              }
-        <RightButton className="absolute" onClick={goRight}>{">"}</RightButton>   
-        </ul>
-       </>
+                        <Link href="/country/[category]/[country]" as={`/country/games/${element.name}`} key={element.name}>
+                            <Featured shift={x} className="relative flex">
+                                <img src={featuredPics[index]} className="absolute z-0" style={{ width: '100%' }} />
+                                <div className="self-center text-center z-10 p-5 bg-black bg-opacity-50">
+                                    <div className="text-lg">Today's featured country</div>
+                                    <div className="text-2xl">{element.name}</div>
+                                    <div className="text-5xl">{element.emoji}</div>
+                                </div>
+                            </Featured>
+                        </Link>
+                    )
+                    )
+                }
+                <RightButton className="absolute" onClick={goRight}>{">"}</RightButton>
+            </ul>
+        </>
     )
 }

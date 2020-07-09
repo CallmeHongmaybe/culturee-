@@ -4,6 +4,7 @@ import {getRandomCountries} from '../lib/countries';
 import getFeaturedPhotos from '../lib/photo_snippets'; 
 import games from '../lib/games.json'; 
 import movies from '../lib/movies.json'; 
+import Footer from '../components/Footer'; 
 
 export default function Index({randomGroups, featuredPics}) {  
 
@@ -46,23 +47,25 @@ export default function Index({randomGroups, featuredPics}) {
                 <table className="table-auto ml-5">
                     <tbody>
                     <tr>
-                        <th className="px-4 py-2 border px-4 py-2">Name</th>
-                        <th className="px-4 py-2 border px-4 py-2">Global views</th>
-                        <th className="px-4 py-2 border px-4 py-2" >Global likes</th>
+                    <th className="p-3 border">Name</th>
+                        <th className="px-4 py-2 border">Global views</th>
+                        <th className="px-4 py-2 border" >Global likes</th>
                     </tr>
                         {
                             movies.map(movie => (
                                 <tr key={movie.global_watched.toString()}>
-                                        <td className="px-4 py-2 border px-4 py-2 text-bold text-blue-500">{movie.name}</td>
-                                        <td className="px-4 py-2 border px-4 py-2">{movie.global_watched}</td>
-                                        <td className="px-4 py-2 border px-4 py-2">{movie.global_likes}</td>
+                                        <td className="px-4 py-2 border text-bold text-blue-500">{movie.name}</td>
+                                        <td className="px-4 py-2 border">{movie.global_watched}</td>
+                                        <td className="px-4 py-2 border">{movie.global_likes}</td>
                                 </tr>
                             ))
                         }
                     </tbody>
                 </table>
+                
           </div>
           </div>
+          <Footer/>
       </div>
   );
 }

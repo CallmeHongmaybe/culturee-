@@ -6,5 +6,6 @@ module.exports = {
         'lg': {'min': '800px', 'max': '1279px'},
         'xl': {'min': '1280px'},
       },
+      purge: false 
     }
   }

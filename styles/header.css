@@ -26,3 +26,8 @@
       font-size: calc(5px + 2vmin); 
       margin-right: 5px;
   }
+
+  .title {
+    width: 150px; 
+    height: 50px;
+  }
