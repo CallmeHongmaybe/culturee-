@@ -36,7 +36,7 @@ function SlimItem({genre, country, rank, name, hits, likes}) {
             if (currentLike > likes) {
                 dataSave = setTimeout(
                     async () => {
-                       const update = await fetch(`http://localhost:3000/api/trends/${genre}/${country}`, {
+                       const update = await fetch(`${origin}/api/trends/${genre}/${country}`, {
                            method: 'PUT',
                            'headers': {
                                 'Content-Type': 'application/json'
@@ -110,7 +110,7 @@ export default function List({genre, country, fetchedData}) {
 
 export async function getServerSideProps({query}) {
     var slug = query.slug; 
-    const getData = await fetch(`${"http://localhost:3000"}/api/trends/${slug.join('/')}`)
+    const getData = await fetch(`${origin}/api/trends/${slug.join('/')}`)
     const { data } = await getData.json(); 
  
     return { 

@@ -42,7 +42,7 @@ function FormDialog({ country, category, authorized, sameCountry }) {
   const saveResults = async () => {
     setOpen(false);
     try {
-      const insertItem = await fetch(`${"http://localhost:3000"}/api/poll/${category}/${country}`, {
+      const insertItem = await fetch(`${origin}/api/poll/${category}/${country}`, {
         method: "POST",
         headers: {
           "Accept": "application/json",
@@ -183,7 +183,7 @@ function PollItem({ name, entry_name, votes, genre, totalVotes, reveal }) {
     recordVotes.current = currentVotes;
     if (currentVotes > votes) {
       var dataSave = setTimeout(async () => {
-        const update = await fetch(`${"http://localhost:3000"}/api/poll/${genre}/${name}`, {
+        const update = await fetch(`${origin}/api/poll/${genre}/${name}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

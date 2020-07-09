@@ -81,7 +81,7 @@ export async function getServerSideProps(ctx) {
     try {
         const {
             data: {items}
-        } = await (await fetch(`http://localhost:3000/api/trends/games/${country}`)).json();
+        } = await (await fetch(`${origin}/api/trends/games/${country}`)).json();
 
         return {
             props: {
