@@ -6,9 +6,6 @@ import Router from 'next/router'
 
 
 // The popstate event of the Window interface is fired when the active history entry changes while the user navigates the session history. https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
-
-
-
 const buttonAnim = keyframes`
     0% {opacity: 0}
     100% {opacity: 1}
