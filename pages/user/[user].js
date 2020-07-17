@@ -3,3 +3,9 @@
 export default function EditUser() {
     return <h1>Hello bello</h1>
 }
+
+export function getServerSideProps(ctx) {
+    
+}
+
+ 

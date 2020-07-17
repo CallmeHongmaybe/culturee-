@@ -1,9 +1,7 @@
-import Header from '../components/Header';
 
 export default function About() {
     return (
         <div>
-            <Header />
             <div className="text-3xl text-center p-3"> Thanks for visiting the site 😍😊 </div>
             <div className="text-xl text-grey-600 text-center ml-10 mr-10">
                 Ever wonder what's currently hot and trending in other countries ? What if you and people in that country share common interest  ?

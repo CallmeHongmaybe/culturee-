@@ -1,4 +1,3 @@
-import Header from '../components/Header'; 
 import FeatureSlider from '../components/FeatureSlider'; 
 import {getRandomCountries} from '../lib/countries'; 
 import getFeaturedPhotos from '../lib/photo_snippets'; 
@@ -17,7 +16,6 @@ export default function Index({randomGroups, featuredPics}) {
 
   return (
       <div>
-          <Header/>
           <FeatureSlider className="h-40" randomGroups={filteredGroup} featuredPics={featuredPics}/>
           <div className="text-4xl p-5">Global trends of this week</div>
           <div className="flex flex-row justify-evenly sm:flex-col">
@@ -75,7 +73,13 @@ export async function getStaticProps() {
     return {
         props: {
             randomGroups: randomCountries, 
-            featuredPics: await getFeaturedPhotos(randomCountries), 
+            // featuredPics: await getFeaturedPhotos(randomCountries), 
+            featuredPics: [
+                'https://images.unsplash.com/photo-1572569403915-b5e8b6317396?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjEyNjU2MH0',
+                'https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjEyNjU2MH0',
+                'https://images.unsplash.com/photo-1553099217-583bbb757691?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjEyNjU2MH0',
+                'https://images.unsplash.com/photo-1553709708-8a9a224b1814?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjEyNjU2MH0'
+              ]
         }
     }
 }

@@ -7,7 +7,6 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import fetch from "isomorphic-fetch";
-
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -15,7 +14,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Header from '../../../components/Header';
 import Router from "next/router";
 import cookie from 'cookie';
 import { decode } from 'jsonwebtoken';
@@ -245,7 +243,6 @@ export default function Poll({ data, name, category, authorized, sameCountry }) 
 
   return (
     <>
-      <Header />
       <div className="flex flex-col">
         <div className="text-blue-600 text-3xl text-center p-2">
           {" "}
@@ -301,10 +298,14 @@ export default function Poll({ data, name, category, authorized, sameCountry }) 
 export async function getServerSideProps(ctx) {
   var { category, country } = ctx.query;
   var authCookie = ctx.req.headers.cookie;
+  dbConnect()
   const results = await Polls[category].findById({ _id: country }).lean();
 
   var nameOfUser = authCookie ? decode(cookie.parse(authCookie).auth).name : undefined
   const theUser = await Item.users.findOne({ name: nameOfUser }).lean();
+
+  // getting the Polls collection 
+  // The top 10% in the poll shall be promoted to the trending list. The rest stays intact until next week. 
 
   return {
     props: {

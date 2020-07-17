@@ -1,7 +1,6 @@
 import { getNameAndEmoji } from "../../../lib/countries";
 import { getPhotoUrls } from "../../../lib/photo_snippets";
 import Images from "../../../components/Images";
-import Header from "../../../components/Header";
 import CatList from "../../../components/CatList";
 import Link from "next/link";
 import TrendBoard from "../../../components/Trends";
@@ -51,7 +50,6 @@ export default function Post({ name, emoji, images, data, genreList, genre }) {
                         Trends in {name} {emoji}
                     </title>
                 </Head>
-                <Header />
                 <CatList name={name} emoji={emoji} genreList={genreList} />
                 <TrendBoard trends={data} country={name} genre={genre} className="mb-10" />
                 <div className="border-solid border-2 border-l-8 border-blue-600 p-5 m-5">
@@ -81,7 +79,7 @@ export async function getServerSideProps(ctx) {
     try {
         const {
             data: {items}
-        } = await (await fetch(`${origin}/api/trends/games/${country}`)).json();
+        } = await (await fetch(`${origin}/api/trends/${category}/${country}`)).json();
 
         return {
             props: {

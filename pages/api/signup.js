@@ -9,11 +9,9 @@ dbConnect();
 // validate each field please
 
 export default async (req, res) => {
-    const {method} = req; 
     const {name, email, nationality, password} = req.body; 
 
-    switch (method) {
-        case 'POST':
+  
         try {
             hash(password, 10, async (err, encryptedPass) => {
                 if (!err) {
@@ -50,12 +48,9 @@ export default async (req, res) => {
         catch (error) {
             res.status(401).json({message : error})
         }
-        break; 
-        default:
-        res.status(200).json({message: "More methods comming soon"})
-        break;
+        
     }
 
-}
+
 
 

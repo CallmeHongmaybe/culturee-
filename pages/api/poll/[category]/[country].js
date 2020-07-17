@@ -26,14 +26,13 @@ export default async (req, res) => {
       }
     case "PUT":
       const { itemName, votes } = req.body;
-      console.log(
-        `category = ${category}, country = ${country}, itemName = ${itemName}, votes = ${votes}`
-      );
       try {
         var update = await Polls[category].updateOne(
           { _id: country, "poll._id": itemName },
           { $set: { "poll.$.votes": votes } }
         );
+
+        console.log(update);
 
         return res.status(200).json({
           data: update.nModified ? "Updated successfully" : "Update failed",
