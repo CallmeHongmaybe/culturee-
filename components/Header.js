@@ -59,6 +59,7 @@ export default function Header({ nameOfUser }) {
                 <a>Login</a>
               </Link>
             )}
+           
         </div>
       </div>
     </div>

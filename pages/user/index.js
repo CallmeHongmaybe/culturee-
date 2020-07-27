@@ -5,7 +5,7 @@ import cookie from 'cookie'
 import Grid from '@material-ui/core/Grid'
 import { GetAvatar } from '../../public/logo'
 
-export default function EditUser({ name }) {
+export default function EditUser({ name, email, nationality }) {
     return (
         <Grid container component="main">
             <Grid item xs={false} sm={4} md={4}>
@@ -24,7 +24,7 @@ export default function EditUser({ name }) {
                     <input
                         type="email"
                         className="mx-auto w-full h-10 rounded focus:outline-none focus:shadow-outline text-xtext-black-500 shadow-lg p-4 m-2"
-                        placeholder="xss@gmail.com"
+                        placeholder={email}
                     />
                 </div>
                 <div>
@@ -32,6 +32,7 @@ export default function EditUser({ name }) {
                     <input
                         type="text"
                         className="mx-auto w-full h-10 rounded focus:outline-none focus:shadow-outline text-xtext-black-500 shadow-lg p-4 m-2"
+                        placeholder={nationality}
                     />
                 </div>
             </Grid>
@@ -40,19 +41,20 @@ export default function EditUser({ name }) {
 }
 
 export function getServerSideProps(ctx) {
-    const authCookie = ctx.req ? ctx.req.headers.cookie : undefined;
-    const userName = authCookie ? decode(cookie.parse(authCookie).auth).name : null;
-    
-    if (userName) {
+    const authCookie = ctx.req.headers.cookie;
+
+    if (typeof authCookie !== 'undefined') {
+        const user = decode(cookie.parse(authCookie).auth); 
         return {
             props: {
-                name: userName,
+                ...user
             }
         }
     }
     else {
+        console.log("You should sign up bro")
         ctx.res.writeHead(302 , {
-            'Location' : '/' // This is your url which you want
+            'Location' : '/'
          });
         ctx.res.end();
     }

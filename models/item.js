@@ -1,10 +1,16 @@
-const mongoose = require('mongoose'); 
-const Int32 = require('mongoose-int32'); 
+const mongoose = require('mongoose')
+const Int32 =require('mongoose-int32')
 
 const itemSchema = new mongoose.Schema({
     name: String,
-    hits: Int32,
-    likes: Int32
+    hits: {
+        type: Int32, 
+        default: 0
+    },
+    likes: {
+        type: Int32, 
+        default: 0
+    }
 })
 
 const itemsSchema = new mongoose.Schema({
@@ -28,10 +34,11 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-const culturee_trends = mongoose.connection.useDb('culturee_trends');
+// const culturee_trends = mongoose.connection.useDb("culturee_trends")
 
 module.exports = {
-    movies: culturee_trends.models.Movies || culturee_trends.model("Movies", itemsSchema, "movies"), 
-    games: culturee_trends.models.Games || culturee_trends.model("Games", itemsSchema, "games"), 
-    users: culturee_trends.models.Users || culturee_trends.model("Users", userSchema, "users")
+    movies: mongoose.models.Movies || mongoose.model("Movies", itemsSchema, "movies"), 
+    games: mongoose.models.Games || mongoose.model("Games", itemsSchema, "games"), 
+    users: mongoose.models.Users || mongoose.model("Users", userSchema, "users"), 
+    itemSkema: mongoose.models.ItemSkema || mongoose.model("ItemSkema", itemSchema)
 }

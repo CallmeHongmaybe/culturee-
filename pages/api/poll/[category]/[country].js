@@ -10,6 +10,7 @@ export default async (req, res) => {
   const {
     method,
     query: { category, country },
+    body: {_id}
   } = req;
 
   console.log(method);
@@ -17,13 +18,15 @@ export default async (req, res) => {
     case "GET":
       try {
         const results = await Polls[category].findById({ _id: country }).lean();
-        return res.status(200).json({ results: results });
+        res.status(200).json({ results });
       } catch (error) {
-        return res.json({
+        res.json({
           message:
             "Sorry there's sth wrong from the server. Error code " + error,
         });
       }
+      res.end()
+      break;
     case "PUT":
       const { itemName, votes } = req.body;
       try {
@@ -32,19 +35,18 @@ export default async (req, res) => {
           { $set: { "poll.$.votes": votes } }
         );
 
-        console.log(update);
-
-        return res.status(200).json({
+        res.status(200).json({
           data: update.nModified ? "Updated successfully" : "Update failed",
         });
       } catch (error) {
-        return res.json({
+         res.json({
           message:
             "Sorry there's sth wrong from the server. Error code " + error,
         });
       }
+      res.end()
+      break; 
     case "POST":
-      const { _id } = req.body;
       var { reason, authStatus } = authenticator(req.cookies.auth);
 
       // decode the auth token to get the name
@@ -54,7 +56,7 @@ export default async (req, res) => {
       const theUser = await Item.users.findOne({ name: name }).lean();
 
       // finally we can compare the nationality of the user name and the country that the user tries to interact with 
-      try {
+     try {
         if (authStatus == 1 && (theUser.nationality === country)) {
           await Polls[category].updateOne({ _id: country }, {
             $push: {
@@ -64,31 +66,48 @@ export default async (req, res) => {
               })
             }
           })
-          return res.status(200).json({
+          res.status(200).json({
             message: `${_id} has been added to ${country}'s ${category} poll`,
             authStatus: authStatus
           })
         }
         else if (theUser.nationality !== country) {
-          return res.status(401).json({
+          res.status(401).json({
             message: `You have to be from ${country} in order to add items in this poll`,
-            yourCountry: theUser.nationality, 
+            yourCountry: theUser.nationality,
           });
         }
         else {
-          return res.status(401).json({
+          res.status(401).json({
             message: reason,
             authStatus: authStatus
           });
         }
+        res.end()
       }
       catch (error) {
-        return res.status(500).json({
+         res.status(500).json({
           message: "Sorry there's sth wrong from the server. Error code " + error,
         },
         );
       }
-    default:
-      return res.end({ message: "I kept working at it" });
+      break; 
+    case 'DELETE':
+        try {
+          await Polls[category].updateOne(
+            { _id: country },
+            {
+              $pull: {
+                poll:
+                  { _id: _id }
+              }
+            }, { safe: true, upsert: true })
+          res.status(200).json({ message: "Deleted successfully" });
+        }
+        catch (error) {
+          res.status(500).json({ message: "Something wrong from server." + error });
+        }
+      res.end()
+      break; 
   }
 };

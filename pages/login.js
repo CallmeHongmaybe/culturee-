@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%", 
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -88,11 +88,10 @@ export default function SignInSide() {
      if (login.status !== 200) {
       setMessage(resp.message)
       setDisabled(true)
-    }
-    else {
-      Router.push("/")
-    }
+     }
 
+     (resp.mod) ? Router.push("/moderator") : Router.push("/")
+     
 }
 
   return (

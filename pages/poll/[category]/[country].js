@@ -1,8 +1,5 @@
-// create a welcome sign somewhere in the header 
 // you may need csrf token and session id for visitors
-// enable mods to delete bad entries
 // create a pipeline between the poll and the trending list
-// rules: only registered users can vote twice and nominate new stuff ! Outsiders only get to vote once and they can't add new stuff. 
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
@@ -19,6 +16,7 @@ import cookie from 'cookie';
 import { decode } from 'jsonwebtoken';
 import Item from '../../../models/item'
 import Polls from '../../../models/poll'
+import dbConnect from '../../../utils/dbConnect'
 
 const dev = process.env.NODE_ENV !== "production";
 const origin = dev ? "http://localhost:3000" : "https://culturee.now.sh";
@@ -52,7 +50,7 @@ function FormDialog({ country, category, authorized, sameCountry }) {
       });
 
       const resp = insertItem.json()
-      console.log(JSON.stringify(resp))
+      console.log(resp.message)
     }
     catch (error) {
       console.log(error)
@@ -69,7 +67,7 @@ function FormDialog({ country, category, authorized, sameCountry }) {
         className="
               bg-transparent 
               hover:bg-blue-500 text-blue-700 font-semibold hover:text-white px-6 
-              py-4 mt-10 border border-blue-500 hover:border-transparent rounded"
+              py-4 mt-10 -mb-5 border border-blue-500 hover:border-transparent rounded"
         onClick={openDialog}
       >
         Nominate your favorite {category.replace("s", "")}
@@ -165,22 +163,40 @@ function FormDialog({ country, category, authorized, sameCountry }) {
   );
 }
 
-/*
-  4 test cases: 
-  #1 not authorized + not sameCountry // expectation: Auth request pops up (Pass)
-  #2 authorized + not sameCountry // expectation: Change country dialog shows up ( Pass )
-  #3 not authorized + sameCountry // expectation: Auth request pops up (Pass) 
-  #4 authorized + sameCountry: // expectation: Allow adding ( Pass )
-*/
-
-function PollItem({ name, entry_name, votes, genre, totalVotes, reveal }) {
+function PollItem({ name, entry_name, votes, genre, totalVotes, reveal, mod }) {
   const [currentVotes, setVotes] = useState(votes);
   const recordVotes = useRef(votes);
+  const [trashCan, showTrashCan] = useState(false)
+  const [deleted, setDelete] = useState(false)
+
+  const deleteEntry = async (e) => {
+    try {
+      e.stopPropagation()
+      setDelete(true)
+      const deleteItem = await fetch(`${origin}/api/poll/${genre}/${name}`, {
+        method: 'DELETE',
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          _id: entry_name
+        }),
+      });
+
+      const resp = deleteItem.json()
+      console.log(JSON.stringify(resp))
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
-    recordVotes.current = currentVotes;
-    if (currentVotes > votes) {
-      var dataSave = setTimeout(async () => {
+    let dataSave = setTimeout(
+      async () => {
+      recordVotes.current = currentVotes;
+      if (currentVotes > votes) {
         const update = await fetch(`${origin}/api/poll/${genre}/${name}`, {
           method: "PUT",
           headers: {
@@ -193,11 +209,11 @@ function PollItem({ name, entry_name, votes, genre, totalVotes, reveal }) {
           }),
         });
         console.log(await (await update.json()).message);
-      }, 2000);
-      return () => {
-        return clearTimeout(dataSave);
-      };
-    }
+      }
+    }, 2000)
+    return () => {
+      return clearTimeout(dataSave);
+  }
   }, [currentVotes]);
 
   var VOTE_PERCENTAGE = Math.ceil((currentVotes / totalVotes) * 100);
@@ -207,8 +223,11 @@ function PollItem({ name, entry_name, votes, genre, totalVotes, reveal }) {
       className="relative rounded m-5 
          flex justify-between items-center h-16 
          border-t border-b border-1 border-gray-500"
-      onClick={() => {
-        setVotes(currentVotes + 1);
+      onClick={() => setVotes(currentVotes + 1)}
+      onMouseEnter={() => showTrashCan(true)}
+      onMouseLeave={() => showTrashCan(false)}
+      style={{
+        display: deleted ? 'none' : 'flex'
       }}
     >
       <div
@@ -218,9 +237,14 @@ function PollItem({ name, entry_name, votes, genre, totalVotes, reveal }) {
           backgroundColor: reveal ? "skyblue" : "transparent",
         }}
       >
-        <div style={{ minWidth: "15vw" }} className="text-md">
-          {" "}
-          {entry_name}{" "}
+        <div style={{ minWidth: "15vw" }} className="flex flex-row text-md">
+          <p>{entry_name}</p>
+          <div
+            onClick={deleteEntry}
+            style={{ cursor: 'pointer', display: mod ? 'block' : 'none' }}
+          >
+            {trashCan ? "🗑" : null}
+          </div>
         </div>
       </div>
       <div style={{ visibility: reveal ? "visible" : "hidden" }}>
@@ -230,16 +254,43 @@ function PollItem({ name, entry_name, votes, genre, totalVotes, reveal }) {
   );
 }
 
-export default function Poll({ data, name, category, authorized, sameCountry }) {
+export default function Poll({ data, name, category, authorized, sameCountry, mod }) {
   var { poll, expr } = JSON.parse(data);
   var totalVotes = poll.reduce((total, item) => {
     return total + item.votes
   }, 0);
 
-  console.log(`totalVotes = ${totalVotes}`)
-
   var [total, setTotalVotes] = useState(totalVotes);
   const [disabled, setDisabled] = useState((authorized && sameCountry) ? false : true);
+
+  // {$each: [monday, tuesday, wednesday]}
+
+  const migratePollsToList = async () => {
+    try {
+      console.log('Fetching api... ')
+      const pipeline = await fetch(`${origin}/api/promote`, {
+        method: 'PUT', 
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        }, 
+        redirect: 'follow', 
+        body: JSON.stringify({
+          nameOfItem: (poll.sort((a, b) => {
+            return b.votes - a.votes
+          }).shift())._id, 
+          category, 
+          name,
+        }),
+      })
+
+      const resp = await pipeline.json()
+      console.log(resp.message)
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -256,14 +307,14 @@ export default function Poll({ data, name, category, authorized, sameCountry }) 
           Total votes: {total}
         </div>
         <ul>
-          {poll.map((el, index) => {
+          {poll.map(el => {
             return (
               <li
-                key={index}
+                key={el._id}
                 className="h-12"
                 style={{
                   opacity: disabled ? 0.7 : 1,
-                  pointerEvents: disabled ? "none" : "auto",
+                  pointerEvents: mod ? "auto" : (disabled ? "none" : "auto"),
                 }}
                 onClick={() => {
                   setTotalVotes(total + 1);
@@ -278,12 +329,28 @@ export default function Poll({ data, name, category, authorized, sameCountry }) 
                   totalVotes={total}
                   reveal={disabled}
                   genre={category}
+                  mod={mod}
                 />
               </li>
             );
           })}
         </ul>
         <FormDialog country={name} category={category} authorized={authorized} sameCountry={sameCountry} />
+        {
+          mod
+            ?
+            <button
+              className="
+                bg-transparent self-center w-15
+                hover:bg-blue-500 text-blue-700 font-semibold hover:text-white px-6 
+                py-4 mt-10 border border-blue-500 hover:border-transparent rounded"
+              onClick={migratePollsToList}
+            >
+              Update the poll
+          </button>
+            :
+            null
+        }
         <Link href="/country/[category]/[country]" as={`/country/${category}/${name}`}>
           <a className="text-center m-5 text-blue-500">Back to trending list</a>
         </Link>
@@ -300,12 +367,11 @@ export async function getServerSideProps(ctx) {
   var authCookie = ctx.req.headers.cookie;
   dbConnect()
   const results = await Polls[category].findById({ _id: country }).lean();
-
   var nameOfUser = authCookie ? decode(cookie.parse(authCookie).auth).name : undefined
   const theUser = await Item.users.findOne({ name: nameOfUser }).lean();
 
   // getting the Polls collection 
-  // The top 10% in the poll shall be promoted to the trending list. The rest stays intact until next week. 
+  // The top 3 in the poll shall be promoted to the trending list. The rest stays intact until next week. 
 
   return {
     props: {
@@ -313,7 +379,9 @@ export async function getServerSideProps(ctx) {
       name: country,
       category: category,
       authorized: authCookie ? true : false,
-      sameCountry: theUser ? (theUser.nationality === country) : false
+      sameCountry: theUser ? (theUser.nationality === country) : false,
+      mod: (theUser && theUser.mod) ? true : false 
     }
   };
 };
+

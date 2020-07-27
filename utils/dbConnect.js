@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 export default function dbConnect() { 
     const db = mongoose.connection;
-   
 
     if (db.readyState !== 1) {    
         mongoose.connect(
@@ -16,7 +15,10 @@ export default function dbConnect() {
             useUnifiedTopology: true 
         });
 
-        db.on('error', () => {console.log("Damn")}); 
+        db.on('error', () => {
+            console.log("Damn")
+            db.close()
+        }); 
 
         db.on('open', () => {
             console.log("connected to db " + db.name); 

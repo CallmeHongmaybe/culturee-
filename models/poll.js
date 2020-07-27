@@ -12,12 +12,10 @@ const pollSchema = new mongoose.Schema({
     poll: [entrySchema]
 });
 
-const culturee_trends = mongoose.connection.useDb('culturee_trends');
-
 module.exports = {
-    games: culturee_trends.models.GamePoll || culturee_trends.model('GamePoll', pollSchema, "poll_games"),
-movies: culturee_trends.models.MoviePoll || culturee_trends.model('MoviePoll', pollSchema, "poll_movies"),
-    entryForm: culturee_trends.models.entryModel || culturee_trends.model('entryModel', entrySchema)
+    games: mongoose.models.GamePoll || mongoose.model('GamePoll', pollSchema, "poll_games"),
+    movies: mongoose.models.MoviePoll || mongoose.model('MoviePoll', pollSchema, "poll_movies"),
+    entryForm: mongoose.models.entryModel || mongoose.model('entryModel', entrySchema)
 }
 
 // if you were to use 2 different dbs simultaneously: 

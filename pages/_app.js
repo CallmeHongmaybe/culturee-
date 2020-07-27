@@ -20,10 +20,9 @@ Router.onRouteChangeError = () => {
 };
 
 export default function MyApp({ Component, pageProps, userName, pathname }) {
-  console.log(`pathname = ${pathname}`)
   return (
     <div className="font-sans">
-      {pathname === "/login" && pathname === "/signup" ? null : <Header nameOfUser={userName} />}
+      {pathname === "/login" && pathname === "/signup" ? null : <Header nameOfUser={userName}/>}
       <Component {...pageProps} />
     </div>
   )
