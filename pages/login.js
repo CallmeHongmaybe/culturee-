@@ -13,6 +13,7 @@ import { useState, useEffect } from 'react'
 
 // input validation coming soon 
 
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   form: {
-    width: "100%", 
+    width: "100%",
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -60,7 +61,7 @@ export default function SignInSide() {
       setDisabled(false)
       setMessage("")
     }
-  }, [form.name , form.password])
+  }, [form.name, form.password])
 
   const handleChange = (e) => {
     setForm({
@@ -85,14 +86,14 @@ export default function SignInSide() {
 
     console.log(login.status)
 
-     if (login.status !== 200) {
+    if (login.status !== 200) {
       setMessage(resp.message)
       setDisabled(true)
-     }
+    }
 
-     (resp.mod) ? Router.push("/moderator") : Router.push("/")
-     
-}
+    (resp.mod) ? Router.push("/moderator") : Router.push("/")
+
+  }
 
   return (
     <Grid container component="main" className={classes.root}>

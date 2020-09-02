@@ -5,6 +5,8 @@ import dbConnect from '../../utils/dbConnect'
 import format from 'date-fns/format'
 import Link from 'next/link'
 import { useState } from 'react'
+import fetch from 'isomorphic-fetch'
+// const origin = process.env.NODE_ENV !== "production" ? "http://localhost:3000" : "https://culturee.now.sh";
 
 // to do list: 
 // cache the whole list using the sessionStorage
@@ -34,7 +36,8 @@ export default function ModPage({ genre, reviewList }) {
                     Object.keys(groupedReviewsByDate).map(date => {
                         var groupReview = groupedReviewsByDate[date];
                         return (
-                            <CheckList date={date} groupReview={JSON.stringify(groupReview)} genre={genre} />
+                            <CheckList key={date} date={date} groupReview={JSON.stringify(groupReview)} genre={genre}
+                            />
                         )
                     })
                 }
@@ -49,16 +52,36 @@ export default function ModPage({ genre, reviewList }) {
 
 function CheckList({ date, groupReview, genre }) {
     const [show, setShow] = useState('grid')
+    // const [done, setDone] = useState(false)
     const toggleDate = () => {
         setShow(show === 'grid' ? 'none' : 'grid')
     }
 
+    const parsedList = JSON.parse(groupReview)
+
     return (
         <div key={date}>
-            <div className="text-2xl text-black bg-gray-300 font-semibold p-2 hover:bg-gray-500" onClick={toggleDate}>{date}</div>
+            <div className="text-black bg-gray-300 font-semibold p-2 hover:bg-gray-500 flex justify-between" onClick={toggleDate}>
+                <p className="text-2xl self-center">{date}</p>
+                <div>
+                    {/* <button
+                        className="
+                        bg-transparent
+                        hover:bg-blue-500 text-blue-700 font-semibold hover:text-white px-4
+                        py-3 border border-blue-500 hover:border-transparent rounded text-md"
+                        onClick={updateAll}
+                    >
+                        Update the polls
+                </button> */}
+                    {/* <div>
+                        {done ? "✅ Finished" : ""}
+                    </div> */}
+
+                </div>
+            </div>
             <div className="grid grid-cols-3 col-gap-2 px-12 py-6" style={{ display: show }}>
                 {
-                    (JSON.parse(groupReview)).map(review => {
+                    parsedList.map(review => {
                         return (
                             <div key={review._id}>
                                 <Link
@@ -71,6 +94,7 @@ function CheckList({ date, groupReview, genre }) {
                         )
                     })
                 }
+
             </div>
         </div>
     )
@@ -89,18 +113,18 @@ export async function getServerSideProps({ req, res, query }) {
         const reviewList = await Polls[genre]
             .find({
                 expr: {
-                    $gte: presentMoment,
+                    $gte: presentMoment - 60480000,
                     $lt: presentMoment + 604800000 // a week from now 
                 }
             }
-                , '_id expr')
+            , '_id expr')
             .lean()
         if (user.mod) {
             return {
                 props: {
                     // ...user,
                     genre,
-                    reviewList: JSON.stringify(reviewList)
+                    reviewList: JSON.stringify(reviewList),
                 }
             }
         }

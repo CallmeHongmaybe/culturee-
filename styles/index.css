@@ -9,3 +9,6 @@
     background: transparent;  /* Optional: just make scrollbar invisible */
 }
 
+* {
+    font-family: 'Questrial', sans-serif;
+}

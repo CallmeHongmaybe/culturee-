@@ -18,12 +18,17 @@ import Item from '../../../models/item'
 import Polls from '../../../models/poll'
 import dbConnect from '../../../utils/dbConnect'
 
+// check if the field is empty <-- ez 
+// check if game already exists in the db <-- medium
+// check if the name exists IRL <-- Supadifficult
+
 const dev = process.env.NODE_ENV !== "production";
 const origin = dev ? "http://localhost:3000" : "https://culturee.now.sh";
 
 function FormDialog({ country, category, authorized, sameCountry }) {
   const [open, setOpen] = useState(false);
   const [entry_name, setEntryName] = useState("");
+  const [disabled, setDisabled] = useState() 
 
   console.log(`sameCountry = ${sameCountry}`)
 
@@ -59,6 +64,11 @@ function FormDialog({ country, category, authorized, sameCountry }) {
 
   const handleInput = (e) => {
     setEntryName(e.target.value)
+    validate()
+  }
+
+  const validate = () => {
+    (!entry_name) ? setDisabled(true) : setDisabled(false)
   }
 
   return (
@@ -97,15 +107,15 @@ function FormDialog({ country, category, authorized, sameCountry }) {
                     onChange={handleInput}
                     fullWidth
                   />
-                </DialogContent>)
+                </DialogContent>
 
       <DialogActions>
                   <Button onClick={closeDialog} color="primary">
                     Cancel
-        </Button>
-                  <Button onClick={saveResults} color="primary">
+                  </Button>
+                  <Button onClick={saveResults} color="primary" disabled={disabled}>
                     Submit
-        </Button>
+                  </Button>
                 </DialogActions>
               </Dialog>
               : <Dialog
@@ -117,16 +127,15 @@ function FormDialog({ country, category, authorized, sameCountry }) {
                 <DialogContent>
                   <DialogContentText>
                     If you are really from {country}, please head to the User Preferences to change your country accordingly
-     </DialogContentText>
+                  </DialogContentText>
                 </DialogContent>
-
                 <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
                   <Button onClick={closeDialog} color="primary">
                     Dismiss
-      </Button>
+                  </Button>
                   <Button onClick={() => Router.push("/edituser")} color="primary">
                     Go to user preferences
-      </Button>
+                  </Button>
                 </DialogActions>
               </Dialog>
           )
@@ -195,25 +204,25 @@ function PollItem({ name, entry_name, votes, genre, totalVotes, reveal, mod }) {
   useEffect(() => {
     let dataSave = setTimeout(
       async () => {
-      recordVotes.current = currentVotes;
-      if (currentVotes > votes) {
-        const update = await fetch(`${origin}/api/poll/${genre}/${name}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          // genre, id, itemName, votes
-          body: JSON.stringify({
-            itemName: entry_name,
-            votes: recordVotes.current,
-          }),
-        });
-        console.log(await (await update.json()).message);
-      }
-    }, 2000)
+        recordVotes.current = currentVotes;
+        if (currentVotes > votes) {
+          const update = await fetch(`${origin}/api/poll/${genre}/${name}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            // genre, id, itemName, votes
+            body: JSON.stringify({
+              itemName: entry_name,
+              votes: recordVotes.current,
+            }),
+          });
+          console.log(await (await update.json()).message);
+        }
+      }, 2000)
     return () => {
       return clearTimeout(dataSave);
-  }
+    }
   }, [currentVotes]);
 
   var VOTE_PERCENTAGE = Math.ceil((currentVotes / totalVotes) * 100);
@@ -267,19 +276,18 @@ export default function Poll({ data, name, category, authorized, sameCountry, mo
 
   const migratePollsToList = async () => {
     try {
-      console.log('Fetching api... ')
       const pipeline = await fetch(`${origin}/api/promote`, {
-        method: 'PUT', 
+        method: 'PUT',
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json"
-        }, 
-        redirect: 'follow', 
+        },
+        redirect: 'follow',
         body: JSON.stringify({
           nameOfItem: (poll.sort((a, b) => {
             return b.votes - a.votes
-          }).shift())._id, 
-          category, 
+          }).shift())._id,
+          category,
           name,
         }),
       })
@@ -290,6 +298,8 @@ export default function Poll({ data, name, category, authorized, sameCountry, mo
     catch (error) {
       console.log(error)
     }
+
+    Router.push("/moderator/" + category )
   }
 
   return (
@@ -380,7 +390,7 @@ export async function getServerSideProps(ctx) {
       category: category,
       authorized: authCookie ? true : false,
       sameCountry: theUser ? (theUser.nationality === country) : false,
-      mod: (theUser && theUser.mod) ? true : false 
+      mod: (theUser && theUser.mod) ? true : false
     }
   };
 };

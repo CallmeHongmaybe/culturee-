@@ -13,13 +13,13 @@ export default async (req, res) => {
     switch (method) {
         case 'PUT':
             try {
-                const { id, likes, name } = req.body;
+                const { id, name, likes, hits } = req.body;
                 var update = await Item[category].updateOne({ _id: id, "items.name": name }, {
                     "$set": {
-                        "items.$.likes": likes
+                        "items.$.likes": likes, 
+                        "items.$.hits": hits, 
                     }
                 })
-
                 return res.status(200).json({ message: update.nModified ? update : "Update failed" });
             }
             catch (error) {
@@ -38,22 +38,3 @@ export default async (req, res) => {
             }
     }
 }
-
-/* update successfully {
-    {
-  n: 1,
-  nModified: 1,
-  opTime: {
-    ts: Timestamp { _bsontype: 'Timestamp', low_: 14, high_: 1592383003 },
-    t: 10
-  },
-  electionId: 7fffffff000000000000000a,
-  ok: 1,
-  '$clusterTime': {
-    clusterTime: Timestamp { _bsontype: 'Timestamp', low_: 14, high_: 1592383003 },
-    signature: { hash: [Binary], keyId: [Long] }
-  },
-  operationTime: Timestamp { _bsontype: 'Timestamp', low_: 14, high_: 1592383003 }
-}
-
-} */

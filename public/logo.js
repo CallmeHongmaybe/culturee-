@@ -1,5 +1,9 @@
 function Logo() {
-    return <img src="/culturee_logo.png" alt="culturee logo" className="title"/>
+    return <img src="/newlogo.png" alt="culturee logo" className="logo"/>
+}
+
+export function BigLogo() {
+    return <img src="/newlogo.png" alt="culturee logo" className="scale-150"/>
 }
 
 export function Thumb() { 

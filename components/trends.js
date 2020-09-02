@@ -15,20 +15,35 @@ const Popup = styled.button`
     font-size: 12px;
 `
 
-function byPopularity(a, b) {
-    var pop = (x) => (x.likes * x.hits) / (x.likes + x.hits);
-    if (pop(a) < pop(b)) {
-        return 1;
-    }
-    if (pop(a) > pop(b)) {
-        return -1;
-    }
-    return 0;
-}
+
 
 export default function TrendBoard({ trends, country, genre }) {
     var parsedList = JSON.parse(trends)
     const standardDecor = "border-b text-center px-4 py-2";
+    const [sorter, setSortBy] = useState({
+        order: null,
+        likes_asc: false, 
+        hits_asc: false 
+    })
+
+    // function byPopularity(a, b) {
+    //     var pop = (x) => (x.likes * x.hits) / (x.likes + x.hits);
+    //     if (pop(a) < pop(b)) {
+    //         return 1;
+    //     }
+    //     if (pop(a) > pop(b)) {
+    //         return -1;
+    //     }
+    //     return 0;
+    // }
+
+    function byLikes(a, b) {
+         if (sorter.likes_asc) return a.likes - b.likes ; else return b.likes - a.likes
+    }
+
+    function byHits(a, b) {
+        if (sorter.hits_asc) return a.hits - b.hits ; else return b.hits - a.hits
+    }
 
     return (
         <div className="flex flex-col">
@@ -37,14 +52,28 @@ export default function TrendBoard({ trends, country, genre }) {
                     <tr>
                         <th className={standardDecor} style={{ width: '20vw' }}>Rank (by downloads)</th>
                         <th className={standardDecor} style={{ width: '20vw' }}>Name</th>
-                        <th className={standardDecor} style={{ width: '20vw' }}>Downloads</th>
-                        <th className={standardDecor} style={{ width: '20vw' }}>Likes</th>
-                        <th className={standardDecor} style={{ width: '20vw' }}></th>
+                        <th className={standardDecor} style={{ width: '20vw' }} 
+                        onClick={() => {setSortBy({
+                            order: byHits, 
+                            hits_asc: !sorter.hits_asc
+                        })}}
+                        >
+                            Hits { sorter.order ? (sorter.hits_asc ? "🔼" : "🔽") : '' }
+                        </th>
+                        <th className={standardDecor} style={{ width: '20vw' }} 
+                        onClick={() => {setSortBy({
+                            order: byLikes, 
+                            likes_asc: !sorter.likes_asc
+                        })}}
+                        >
+                            Likes {sorter.order ? (sorter.likes_asc ? "🔼" : "🔽" ): ''}
+                        </th>
+                        <th className={standardDecor} style={{ width: '20vw' }}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        parsedList.sort(byPopularity).map((trend, index) => {
+                        parsedList.sort(sorter.order || byHits).map((trend, index) => {
                             return (
                                 <Item
                                     key={trend.name}
@@ -60,14 +89,6 @@ export default function TrendBoard({ trends, country, genre }) {
                         )
                     }
                 </tbody>
-                {/* <Link href="/lists/[...slug]" as={`/lists/${genre}/${encodeURIComponent(country)}`}>
-                <button className="sm:w-1/2 w-1/5 self-center bg-transparent 
-            hover:bg-blue-500 text-blue-700 font-semibold hover:text-white px-6 
-            py-4 mt-3 border border-blue-500 hover:border-transparent rounded">
-                    See full list
-            </button>
-            </Link> */}
-
             </table>
             <Link href="/poll/[category]/[country]" as={`/poll/${genre}/${encodeURIComponent(country)}`}>
                 <button
@@ -90,8 +111,8 @@ function Item({ name, hits, likes, rank, genre, country }) {
         disabled: false
     });
     const [currentLike, setLike] = useState(likes);
-    const likesRef = useRef(likes);
-    const [saved, setSaved] = useState(false)
+    const likesRef = useRef(likes) 
+    const hitRef = useRef(hits)
     const buttonStyle = "bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded";
     const standardDecor = "border-b text-center px-4 py-2";
     
@@ -99,7 +120,8 @@ function Item({ name, hits, likes, rank, genre, country }) {
 
     useEffect(() => {
         likesRef.current = currentLike
-        if (currentLike > likes) {
+        hitRef.current = hit_count.value
+        if (currentLike > likes || hit_count.value > hits) {
             dataSave = setTimeout(
                 async () => {
                     // update this url
@@ -111,41 +133,45 @@ function Item({ name, hits, likes, rank, genre, country }) {
                         body: JSON.stringify({
                             id: country,
                             name: name,
-                            likes: likesRef.current
+                            likes: likesRef.current, 
+                            hits: hitRef.current
                         })
                     }
                     );
-                    setSaved(true)
                     console.log(await (await update.json()).message)
                 }, 3000);
             return () => {
-                setSaved(false)
                 return clearTimeout(dataSave);
             }
         }
-        else if (hit_count.value > hits) {
-            // to be continued 
-        }
     }, [currentLike, hit_count.value])
 
-    function goldenTiers() {
+    function tierColors() {
         switch (rank) {
             case 1:
-                return "#fae828";
+                return "linear-gradient(135deg, rgba(247,245,0,1) 6%, rgba(255,255,255,0.3561799719887955) 26%"
             case 2:
-                return "#D7D7D7";
+                return "linear-gradient(135deg, rgba(215,215,215,1) 6%, rgba(255,255,255,0.3561799719887955) 26%)"
             case 3:
-                return "#AD8A56";
-            default:
-                return "rgb(255,255,255)";
+                return "linear-gradient(135deg, rgba(173,138,86,1) 6%, rgba(255,255,255,0.3561799719887955) 26%)"
+            default: return "rgb(255,255,255)"
+        }
+    }
+
+    function rankPerks() {
+        switch(rank) {
+            case 1: return "🥇"
+            case 2: return "🥈"
+            case 3: return "🥉"
+            default: return "#" + rank
         }
     }
 
     return (
         <tr className="text-md"
-            style={{backgroundColor: goldenTiers()}}
+            style={{background: tierColors()}}
         >
-            <td className={standardDecor}>#{rank}</td>
+            <td className={standardDecor}>{rankPerks()}</td>
             <td className={standardDecor}>{name}</td>
             <td className={standardDecor}>{hit_count.value}</td>
             <td className={standardDecor}>{currentLike}</td>
@@ -167,7 +193,6 @@ function Item({ name, hits, likes, rank, genre, country }) {
                     onClick={() => { setLike(currentLike + 1) }}>
                     👍
                 </Popup>
-                <div className="text-blue-500 px-2">{saved ? "Saved" : null}</div>
             </td>
         </tr>
     )

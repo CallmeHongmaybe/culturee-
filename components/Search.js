@@ -46,11 +46,11 @@ export default class Search extends Component {
 
   render() {
     return (
-      <div className="relative w-1/3 sm:w-4/5">
+      <div className="self-center relative w-1/3 sm:w-4/5">
         <input
           ref={(input) => (this.search = input)}
           type="search"
-          className="mx-auto w-full h-10 rounded focus:outline-none focus:shadow-outline text-xl text-black-500 shadow-lg p-4 m-2"
+          className="mx-auto w-full h-10 rounded focus:outline-none focus:shadow-outline text-xl text-black-500 shadow-lg p-4 m-2 border border-black"
           placeholder="Search for country..."
           onChange={this.setKeyword}
         />

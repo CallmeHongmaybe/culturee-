@@ -4,6 +4,7 @@ import cookie from 'cookie'
 // import dbConnect from '../../utils/dbConnect'
 import Grid from '@material-ui/core/Grid'
 import { GetAvatar } from '../../public/logo'
+import Button from '@material-ui/core/Button'
 
 export default function EditUser({ name, email, nationality }) {
     return (
@@ -11,6 +12,7 @@ export default function EditUser({ name, email, nationality }) {
             <Grid item xs={false} sm={4} md={4}>
                 <div className="border-b-2 flex flex-col justify-center items-center p-5">
                     <GetAvatar />
+                    <Button>Change avatar</Button>
                     <p className="text-lg font-bold text-center">Hi {name}</p>
                 </div>
                 <div className="text-xl font-bold flex flex-col text-center">
@@ -44,7 +46,7 @@ export function getServerSideProps(ctx) {
     const authCookie = ctx.req.headers.cookie;
 
     if (typeof authCookie !== 'undefined') {
-        const user = decode(cookie.parse(authCookie).auth); 
+        const user = decode(cookie.parse(authCookie).auth);
         return {
             props: {
                 ...user
@@ -53,9 +55,9 @@ export function getServerSideProps(ctx) {
     }
     else {
         console.log("You should sign up bro")
-        ctx.res.writeHead(302 , {
-            'Location' : '/'
-         });
+        ctx.res.writeHead(302, {
+            'Location': '/'
+        });
         ctx.res.end();
     }
 }

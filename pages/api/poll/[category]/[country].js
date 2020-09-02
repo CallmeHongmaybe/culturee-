@@ -61,7 +61,7 @@ export default async (req, res) => {
           await Polls[category].updateOne({ _id: country }, {
             $push: {
               poll: new Polls.entryForm({
-                _id: _id,
+                _id,
                 votes: 0
               })
             }
@@ -98,8 +98,7 @@ export default async (req, res) => {
             { _id: country },
             {
               $pull: {
-                poll:
-                  { _id: _id }
+                poll: { _id }
               }
             }, { safe: true, upsert: true })
           res.status(200).json({ message: "Deleted successfully" });

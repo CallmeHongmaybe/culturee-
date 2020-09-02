@@ -4,22 +4,17 @@ import Logo from "../public/logo";
 import { useState } from "react";
 import Router from "next/router";
 
-export default function Header({ nameOfUser }) {
+export default function Header({ nameOfUser, mod, showSearchBar }) {
   const [optionsOpened, setOpen] = useState(false);
 
   return (
-    <div className="relative flex sm:flex-col justify-around items-center bg-blue-200 text-black-200">
-      <Logo />
-      <Search />
+    <div className="relative flex sm:flex-col justify-around items-center text-black-200 bg-white border-b-2 border-blue-200 pl-10 pr-10">
+      <Link href="/"><a><Logo /></a></Link>
+      {showSearchBar && <Search />}
       <div
         className="relative w-1/3 sm:w-4/5 flex flex-row justify-around"
         style={{ color: "blue" }}
       >
-        <div>
-          <Link href="/">
-            <a>Home</a>
-          </Link>
-        </div>
         <div>
           <Link href="/forum">
             <a>Forum</a>
@@ -30,6 +25,16 @@ export default function Header({ nameOfUser }) {
             <a>About</a>
           </Link>
         </div>
+        {
+          mod ?
+            <div>
+              <Link href="/moderator">
+                <a>Modpage</a>
+              </Link>
+            </div>
+            :
+            null
+        }
         <div>
           {nameOfUser ? (
             <div onClick={() => setOpen(!optionsOpened)}>
@@ -59,7 +64,7 @@ export default function Header({ nameOfUser }) {
                 <a>Login</a>
               </Link>
             )}
-           
+
         </div>
       </div>
     </div>

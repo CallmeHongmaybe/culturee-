@@ -32,7 +32,7 @@ export default async (req, res) => {
                 maxAge: 3600,
                 sameSite: 'strict',
                 secure: process.env.NODE_ENV !== 'development',
-                path: '/'
+                path: '/' 
             }))
         
             res.status(200).json({
