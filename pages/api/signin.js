@@ -12,9 +12,9 @@ dbConnect();
 
 export default async (req, res) => {
     const { name, password } = req.body;
-    
+
     try {
-        const theUser = await Item.users.findOne({ name: name }).lean();
+        const theUser = await Item.users.findOne({ name }).lean();
 
         if (theUser.name && theUser.password) {
             await compare(password, theUser.password)
@@ -32,9 +32,9 @@ export default async (req, res) => {
                 maxAge: 3600,
                 sameSite: 'strict',
                 secure: process.env.NODE_ENV !== 'development',
-                path: '/' 
+                path: '/'
             }))
-        
+
             res.status(200).json({
                 message: "Alright buckle up",
                 authToken: token,
