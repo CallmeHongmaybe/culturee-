@@ -22,10 +22,7 @@ Router.onRouteChangeError = () => {
 export default function MyApp({ Component, pageProps, userName, modStatus, pathname }) {
   return (
     <div className=" font-sans ">
-      {pathname === "/login" && pathname === "/signup" ?
-        null :
-        <Header nameOfUser={userName} mod={modStatus} showSearchBar={!(pathname == "/")} />
-      }
+      <Header nameOfUser={userName} mod={modStatus} pathname={pathname} showSearchBar={!(pathname == "/")} />
       <Component {...pageProps} />
     </div>
   )

@@ -90,9 +90,9 @@ export default function SignInSide() {
       setMessage(resp.message)
       setDisabled(true)
     }
-
-    (resp.mod) ? Router.push("/moderator") : Router.push("/")
-
+    else {
+      (resp.mod) ? Router.push("/moderator") : Router.push("/")
+    }
   }
 
   return (

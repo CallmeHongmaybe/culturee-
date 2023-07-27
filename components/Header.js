@@ -4,7 +4,7 @@ import Logo from "../public/logo";
 import { useState } from "react";
 import Router from "next/router";
 
-export default function Header({ nameOfUser, mod, showSearchBar }) {
+export default function Header({ nameOfUser, mod, pathname, showSearchBar }) {
   const [optionsOpened, setOpen] = useState(false);
 
   return (
@@ -12,7 +12,7 @@ export default function Header({ nameOfUser, mod, showSearchBar }) {
       <Link href="/"><a><Logo /></a></Link>
       {showSearchBar && <Search />}
       <div
-        className="relative w-1/3 sm:w-4/5 flex flex-row justify-around"
+        className="relative w-1/4 sm:w-4/5 flex flex-row justify-around"
         style={{ color: "blue" }}
       >
         <div>
@@ -40,7 +40,7 @@ export default function Header({ nameOfUser, mod, showSearchBar }) {
             <div onClick={() => setOpen(!optionsOpened)}>
               <a>@{nameOfUser}</a>
               {optionsOpened ? (
-                <ul className="border-2 border-solid fixed z-10 bg-white">
+                <ul className="border-2 border-solid absolute z-10 bg-white">
                   <li className="p-2" key={"Edit profile"}>
                     <Link href="/user">
                       <a>Edit profile</a>
@@ -59,12 +59,11 @@ export default function Header({ nameOfUser, mod, showSearchBar }) {
                 </ul>
               ) : null}
             </div>
-          ) : (
-              <Link href="/login">
-                <a>Login</a>
-              </Link>
-            )}
-
+          ) : (!['/about', '/forum'].includes(pathname)) && (
+            <Link href="/login">
+              <a>Login</a>
+            </Link>
+          )}
         </div>
       </div>
     </div>

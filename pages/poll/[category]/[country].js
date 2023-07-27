@@ -23,12 +23,12 @@ import dbConnect from '../../../utils/dbConnect'
 // check if the name exists IRL <-- Supadifficult
 
 const dev = process.env.NODE_ENV !== "production";
-const origin = dev ? "http://localhost:3000" : "https://culturee.now.sh";
+const origin = dev ? "http://localhost:3000" : "https://culturee.vercel.app";
 
 function FormDialog({ country, category, authorized, sameCountry }) {
   const [open, setOpen] = useState(false);
   const [entry_name, setEntryName] = useState("");
-  const [disabled, setDisabled] = useState() 
+  const [disabled, setDisabled] = useState()
 
   console.log(`sameCountry = ${sameCountry}`)
 
@@ -109,7 +109,7 @@ function FormDialog({ country, category, authorized, sameCountry }) {
                   />
                 </DialogContent>
 
-      <DialogActions>
+                <DialogActions>
                   <Button onClick={closeDialog} color="primary">
                     Cancel
                   </Button>
@@ -133,7 +133,7 @@ function FormDialog({ country, category, authorized, sameCountry }) {
                   <Button onClick={closeDialog} color="primary">
                     Dismiss
                   </Button>
-                  <Button onClick={() => Router.push("/edituser")} color="primary">
+                  <Button onClick={() => Router.push("/user")} color="primary">
                     Go to user preferences
                   </Button>
                 </DialogActions>
@@ -148,20 +148,20 @@ function FormDialog({ country, category, authorized, sameCountry }) {
             <DialogContent>
               <DialogContentText>
                 Sign up to nominate a new item and get an extra vote
-          </DialogContentText>
+              </DialogContentText>
             </DialogContent>
 
             <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
               <Button onClick={closeDialog} color="primary">
                 Dismiss
-          </Button>
+              </Button>
               <Button onClick={() => { Router.push('/signup') }} color="primary">
                 Sign up
-          </Button>
+              </Button>
             </DialogActions>
             <DialogContentText>
               <div className="text-center">Already have an account?
-          <Link href="/login">
+                <Link href="/login">
                   <a className="hover:text-blue-400">{"  "}Sign in</a>
                 </Link>
               </div>
@@ -299,7 +299,7 @@ export default function Poll({ data, name, category, authorized, sameCountry, mo
       console.log(error)
     }
 
-    Router.push("/moderator/" + category )
+    Router.push("/moderator/" + category)
   }
 
   return (
@@ -307,7 +307,7 @@ export default function Poll({ data, name, category, authorized, sameCountry, mo
       <div className="flex flex-col">
         <div className="text-blue-600 text-3xl text-center p-2">
           {" "}
-        Here we'll vote these things below to appear in the trending list of{" "}
+          Here we'll vote these things below to appear in the trending list of{" "}
           {name} next month{" "}
         </div>
         <div className="text-gray-700 text-xl text-center pt-2">
@@ -357,7 +357,7 @@ export default function Poll({ data, name, category, authorized, sameCountry, mo
               onClick={migratePollsToList}
             >
               Update the poll
-          </button>
+            </button>
             :
             null
         }
@@ -373,12 +373,12 @@ export default function Poll({ data, name, category, authorized, sameCountry, mo
 }
 
 export async function getServerSideProps(ctx) {
+  dbConnect()
   var { category, country } = ctx.query;
   var authCookie = ctx.req.headers.cookie;
-  dbConnect()
   const results = await Polls[category].findById({ _id: country }).lean();
-  var nameOfUser = authCookie ? decode(cookie.parse(authCookie).auth).name : undefined
-  const theUser = await Item.users.findOne({ name: nameOfUser }).lean();
+  var userCreds = authCookie && decode(cookie.parse(authCookie).auth);
+  const theUser = userCreds && await Item.users.findOne({ name: userCreds.name }).lean();
 
   // getting the Polls collection 
   // The top 3 in the poll shall be promoted to the trending list. The rest stays intact until next week. 
@@ -388,7 +388,7 @@ export async function getServerSideProps(ctx) {
       data: JSON.stringify(results),
       name: country,
       category: category,
-      authorized: authCookie ? true : false,
+      authorized: theUser ? true : false,
       sameCountry: theUser ? (theUser.nationality === country) : false,
       mod: (theUser && theUser.mod) ? true : false
     }

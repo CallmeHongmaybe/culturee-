@@ -6,7 +6,7 @@ import format from 'date-fns/format'
 import Link from 'next/link'
 import { useState } from 'react'
 import fetch from 'isomorphic-fetch'
-// const origin = process.env.NODE_ENV !== "production" ? "http://localhost:3000" : "https://culturee.now.sh";
+// const origin = process.env.NODE_ENV !== "production" ? "http://localhost:3000" : "https://culturee.vercel.app";
 
 // to do list: 
 // cache the whole list using the sessionStorage

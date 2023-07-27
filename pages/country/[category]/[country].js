@@ -11,7 +11,7 @@ import Head from "next/head";
 import fetch from 'isomorphic-fetch'
 
 const dev = process.env.NODE_ENV !== "production";
-const origin = dev ? "http://localhost:3000" : "https://culturee.now.sh";
+const origin = dev ? "http://localhost:3000" : "https://culturee.vercel.app";
 
 function usePrevCountry(name) {
     const ref = useRef();

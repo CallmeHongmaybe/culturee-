@@ -17,7 +17,10 @@ export default async (req, res) => {
         const theUser = await Item.users.findOne({ name }).lean();
 
         if (theUser.name && theUser.password) {
-            await compare(password, theUser.password)
+            if (!(await compare(password, theUser.password))) {
+                return res.status(401).json({ message: "Sorry your password or name is invalid" })
+            }
+
             const claims = {
                 name: theUser.name,
                 email: theUser.email,
@@ -42,9 +45,8 @@ export default async (req, res) => {
             })
         }
     }
-    catch {
-        res.status(401).json({ message: "Sorry your password or name is invalid" })
-        console.log("Sorry your password or name is invalid")
+    catch (error) {
+        return res.status(500).json({ message: "Sorry there's smth wrong from the server. " + error })
     }
 }
 

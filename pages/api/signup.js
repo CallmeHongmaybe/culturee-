@@ -2,6 +2,7 @@ const Item = require('../../models/item')
 import dbConnect from '../../utils/dbConnect'
 import { sign } from 'jsonwebtoken'
 import cookie from 'cookie'
+import { hash } from 'bcrypt'
 
 dbConnect();
 
